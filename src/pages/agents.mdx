@@ -1,0 +1,258 @@
+import { HeroPattern } from '@/components/HeroPattern'
+
+<HeroPattern />
+
+export const description =
+  'In this guide, we will look at how to work with paginated responses when querying the Protocol API'
+
+# Agents
+
+This guide will get you all set up and ready to use Superagent Agents. Superagent allows users to do question answering over agents by attaching a Agent to an Agent. Agents are files, such as PDF, TXT, images, Markdown etc. that can be ingested by passing a publicly available URL to the Superagent API. Superagent splits these agents into smaller chunks and stores them in a vector database for use downstream.
+
+This approach has some downsides when working with tabular data. We are looking into how to best approach this problem. {{ className: 'lead' }}
+
+## The Agent Models
+
+The Superagent Swift SDK comes with publicly available models. This makes it easy for you to configure your requests correctly.
+Agents in superagent allow the following properties in the request.
+
+
+
+<Row>
+  <Col>
+
+  ### Agent Model
+<Properties>
+  <Property name="name" type="String">
+    A name for the agent.
+  </Property>
+  <Property name="type" type="String">
+    The agent type, valid values: `OPENAI`, `REACT`.
+  </Property>
+  <Property name="llm" type="LLM Model">
+    The large language model you want to use with the agent.
+  </Property>
+  <Property name="hasMemory" type="Bool?">
+    If the agent should have memory
+  </Property>
+  <Property name="promptId" type="String?">
+   A valid `promptId`.
+  </Property>
+</Properties>
+</Col>
+<Col>
+
+### LLM Model
+The LLM Model is a child model of Agent which is required inside of the splitter property of the Agents model
+<Properties>
+  <Property name="provider" type="String">
+    The LLM provider, options: `openai`, `openai-chat`, `anthropic`,`cohere`.
+  </Property>
+  <Property name="model" type="String">
+   The specific model you want to run, e.g `gpt-3.5-turbo`, `gpt-4`, `claude-v1`, etc.
+  </Property>
+  <Property name="apiKey" type="String">
+    An optional API key if you want to use your own account for the specific LLM provider.
+  </Property>
+</Properties>
+</Col>
+</Row>
+---
+
+## List all Agents {{ tag: 'GET', label: '/v1/agents' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to retrieve a list of all your Agents
+
+    ```swift {{ title: 'myAgents.swift' }}
+    do {
+      let myAgents = try await superagent.listAgents()
+      print("Agent: \(myAgents)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+  </Col>
+  <Col sticky>
+
+    You can access the response key value pairs by requesting a specific key. For example `myAgents["id"]` for the Agent Id
+
+    ```json {{ title: 'Response' }}
+    [
+      {
+        "id": "clhjk4hab00016iewrghkbs28",
+        "userId": "clhj28u1300006ig02ptpm1sh",
+        "user": {},
+        "name": "Test Agent",
+        "type": "REACT",
+        "llm": {
+            "model": "gpt-3.5-turbo",
+            "provider": "openai-chat"
+        },
+        "hasMemory": true,
+        "AgentMemory": null
+      }
+    ]
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Get Agent {{ tag: 'GET', label: '/v1/agents{agentId}' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to retrieve a single Agent
+
+    ### Require attributes
+    
+    <Properties>
+      <Property name="id" type="string">
+        The id of the Agent.
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'myAgents.swift' }}
+    do {
+      let myAgents = try await superagent.getAgent(id: "myAgentId")
+      print("Agent: \(myAgents)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+  </Col>
+  <Col sticky>
+
+    You can access the response key value pairs by requesting a specific key. For example `myAgents["id"]` for the Agent Id
+
+    ```json {{ title: 'Response' }}
+    {
+        "id": "clhnyae1t00016i2ixo0027c5",
+        "userId": "clhj28u1300006ig02ptpm1sh",
+        "user": {},
+        "name": "My agent"
+        "type": "PDF",
+        "url": "https://digitalassets.tesla.com/tesla-contents/image/upload/IR/TSLA-Q1-2023-Update",
+        "createdAt": "2023-05-14T21:50:59.349000+00:00",
+        "updatedAt": "2023-05-14T21:50:59.349000+00:00",
+        "index": null,
+        "Agent": null
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Create Agent {{ tag: 'POST', label: '/v1/agents' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to update a single Agent
+
+    ### Require attributes
+    
+    <Properties>
+      <Property name='Agent(name: "My agent", type: "OPENAI",...)' type="Agent Model">
+        The updated Agent as a Agent model
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'myAgents.swift' }}
+
+    let newAgent = Agent(name: "My agent", type: "OPENAI", llm: Agent.LLM(provider: "openai-chat", model: "gpt-3.5-turbo", apiKey: ""), hasMemory: true, promptId: "12345678")
+
+    do {
+      let myAgents = try await superagent.createAgent(Agent: newAgent)
+      print("Agent: \(myAgents)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+  </Col>
+  <Col sticky>
+
+    You can access the response key value pairs by requesting a specific key. For example `myAgents["id"]` for the Agent Id
+
+    ```json {{ title: 'Response' }}
+    {
+        "id": "clhnyae1t00016i2ixo0027c5",
+        "userId": "clhj28u1300006ig02ptpm1sh",
+        "user": {},
+        "type": "PDF",
+        "url": "https://digitalassets.tesla.com/tesla-contents/image/upload/IR/TSLA-Q1-2023-Update",
+        "createdAt": "2023-05-14T21:50:59.349000+00:00",
+        "updatedAt": "2023-05-14T21:50:59.349000+00:00",
+        "index": null,
+        "Agent": null
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Delete Agent {{ tag: 'DEL', label: '/v1/agents{agentId}' }}
+
+    This endpoint allows you to retrieve a single Agent. The delet function returns a simple true or false boolean value
+
+    ### Require attributes
+    
+    <Properties>
+      <Property name="id" type="string">
+        The id of the Agent.
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'myAgents.swift' }}
+    do {
+      let myAgents = try await superagent.deleteAgent(id: "myAgentId")
+      print("Agent: \(myAgents)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+
+---
+
+## Agent Prediction {{ tag: 'POST', label: '/v1/agents{agentId}/predict' }}
+
+
+    This endpoint allows you to call an Agent. It returns a simple String.
+    The Superagent Swift SDK does currently not support streaming.
+
+    ### Require attributes
+    
+    <Properties>
+      <Property name="id" type="string">
+        The id of the Agent.
+      </Property>
+      <Property name='PredictAgent(input: "Hello Superagent", hasStreaming: true)' type="Agent Predict Model">
+        The updated Agent as a Agent model
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'Chat.swift' }}
+
+    let newRequest = PredictAgent(input: "Hello Superagent", hasStreaming: false), hasMemory: true, promptId: "12345678")
+
+    do {
+      let response = try await superagent.createPrediction(agentId: "1h1kug23s", prediction: newRequest)
+      print("Response: \(response)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```

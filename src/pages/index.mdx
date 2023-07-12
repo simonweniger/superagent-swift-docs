@@ -1,0 +1,40 @@
+import { Guides } from '@/components/Guides'
+import { Resources } from '@/components/Resources'
+import { HeroPattern } from '@/components/HeroPattern'
+
+export const description =
+  'Learn everything there is to know about the Protocol API and integrate Protocol into your product.'
+
+export const sections = [
+  { title: 'Guides', id: 'guides' },
+  { title: 'Resources', id: 'resources' },
+]
+
+<HeroPattern />
+
+# Superagent Swift SDK
+
+This is a community-made SwiftSDK for the Superagen LLM Framework. You need to have a superagent API Key in order to use the SDK. To get your API key head over to superagent.sh or fork the main repo and self-host it.. {{ className: 'lead' }}
+
+<div className="not-prose mb-16 mt-6 flex gap-3">
+  <Button href="/quickstart" arrow="right" children="Quickstart" />
+  <Button href="https://app.superagent.sh" variant="outline" children="About Superagent" />
+  <Button href="https://docs.superagent.sh/introduction" variant="outline" children="Superagent Documentation" />
+</div>
+
+## Getting started {{ anchor: false }}
+
+To get started, create a new application in your [superagent dashboard](https://app.superagent.sh), then read about how to make requests for the resources you need to access using our the swift client SDKs. {{ className: 'lead' }}
+
+<div className="not-prose">
+  <Button
+    href="https://app.superagent.sh/api-tokens"
+    variant="text"
+    arrow="right"
+    children="Get your API key"
+  />
+</div>
+
+<Guides />
+
+<Resources />

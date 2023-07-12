@@ -1,0 +1,241 @@
+import { HeroPattern } from '@/components/HeroPattern'
+
+<HeroPattern />
+
+export const description =
+  'In this guide, we will look at how to work with paginated responses when querying the Protocol API'
+
+# Prompts
+
+This guide will get you all set up and ready to use Superagent Prompts. Superagent allows users to configure their Agents using prompts. A prompt is piece of text that gives context to the LLM. It can contain instructions on how the Agent should act, input variables used for injecting data into the prompt. Common examples of input_variables are human_input, question and chat_history for in context memory. {{ className: 'lead' }}
+
+## The Prompt Model
+
+The Superagent Swift SDK comes with publicly available models. This makes it easy for you to configure your requests correctly.
+Prompts in superagent allow the following properties in the request.
+
+<Properties>
+  <Property name="name" type="string">
+    The name of the prompt.
+  </Property>
+  <Property name="inputVariables" type="array of strings">
+    A `String array` containing input variables.
+  </Property>
+  <Property name="template" type="string">
+    The prompt template.
+  </Property>
+</Properties>
+
+---
+
+## List all prompts {{ tag: 'GET', label: '/v1/prompts' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to retrieve a list of all your prompts
+
+    ```swift {{ title: 'myprompts.swift' }}
+    do {
+      let myprompts = try await superagent.listPrompts()
+      print("prompt: \(myprompts)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+  </Col>
+  <Col sticky>
+
+    You can access the response key value pairs by requesting a specific key. For example `myprompts["id"]` for the prompt Id
+
+    ```json {{ title: 'Response' }}
+    {[
+        {
+          "id": "cli28c2vd00016itbrlhekwql",
+          "name": "My prompt",
+          "template": "...",
+          "input_variables": [
+            "question",
+            "history"
+          ],
+        }
+      ]
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Get prompt {{ tag: 'GET', label: '/v1/prompts{promptId}' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to retrieve a single prompt
+
+    ### Require attributes
+    
+    <Properties>
+      <Property name="id" type="string">
+        The id of the prompt.
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'myprompts.swift' }}
+    do {
+      let myprompts = try await superagent.getPrompt(id: "mypromptId")
+      print("prompt: \(myprompts)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+  </Col>
+  <Col sticky>
+
+    You can access the response key value pairs by requesting a specific key. For example `myprompts["id"]` for the prompt Id
+
+    ```json {{ title: 'Response' }}
+    {
+        "id": "cli28c2vd00016itbrlhekwql",
+        "name": "My prompt",
+        "template": "...",
+        "input_variables": [
+          "question",
+          "history"
+        ]
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Update a prompt {{ tag: 'PAT', label: '/v1/prompts{promptId}' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to update a single prompt
+
+    ### Require attributes
+    
+    <Properties>
+    <Property name="id" type="string">
+        The id of the prompt.
+      </Property>
+      <Property name='Prompt(name: "New Name", inputVariables: "", template: "")' type="Prompt Model">
+        The updated prompt as a Prompt model
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'myprompts.swift' }}
+
+    let newPrompt = Prompt(name: "My prompt", inputVariables: ["question", "history"], template: "My prompt template with {histroy} and {question}")
+
+    do {
+      let myprompts = try await superagent.updatePrompt(id: "mypromptId", newPrompt: newPrompt)
+      print("prompt: \(myprompts)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+  </Col>
+  <Col sticky>
+
+    You can access the response key value pairs by requesting a specific key. For example `myprompts["id"]` for the prompt Id
+
+    ```json {{ title: 'Response' }}
+    {
+        "id": "cli28c2vd00016itbrlhekwql",
+        "name": "My prompt",
+        "template": "...",
+        "input_variables": [
+          "question",
+          "history"
+        ]
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Create prompt {{ tag: 'POST', label: '/v1/prompts' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to update a single prompt
+
+    ### Require attributes
+    
+    <Properties>
+      <Property name='Prompt(name: "New Name", inputVariables: "", template: "")' type="Prompt Model">
+        The updated prompt as a Prompt model
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'myprompts.swift' }}
+
+    let newPrompt = Prompt(name: "New Name", inputVariables: "", template: "")
+
+    do {
+      let myprompts = try await superagent.createPrompt(prompt: newPrompt)
+      print("prompt: \(myprompts)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+  </Col>
+  <Col sticky>
+
+    You can access the response key value pairs by requesting a specific key. For example `myprompts["id"]` for the prompt Id
+
+    ```json {{ title: 'Response' }}
+    {
+        "id": "cli28c2vd00016itbrlhekwql",
+        "name": "My prompt",
+        "template": "...",
+        "input_variables": [
+          "question",
+          "history"
+        ]
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Delete prompt {{ tag: 'DEL', label: '/v1/prompts{promptId}' }}
+
+    This endpoint allows you to retrieve a single prompt. The delet function returns a simple true or false boolean value
+
+    ### Require attributes
+    
+    <Properties>
+      <Property name="id" type="string">
+        The id of the prompt.
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'myprompts.swift' }}
+    do {
+      let myprompts = try await superagent.deletePrompt(id: "mypromptId")
+      print("prompt: \(myprompts)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+
+---

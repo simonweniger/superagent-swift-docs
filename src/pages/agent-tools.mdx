@@ -1,0 +1,165 @@
+import { HeroPattern } from '@/components/HeroPattern'
+
+<HeroPattern />
+
+export const description =
+  'This guide will get you all set up and ready to use Superagent Agent Tools.'
+
+# Agent Tools
+
+This guide will get you all set up and ready to use Superagent Agent Tools. {{ className: 'lead' }}
+
+---
+
+## List all Agent Tools {{ tag: 'GET', label: '/v1/agent-tools' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to retrieve a list of all your agent tools
+
+    ```swift {{ title: 'MyAgentTools.swift' }}
+    do {
+      let myAgentTools = try await superagent.listAgentTools()
+      print("tool: \(myAgentTools)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+  </Col>
+  <Col sticky>
+
+    You can access the response key value pairs by requesting a specific key. For example `myAgentTools["user"]` for the tool Id
+
+    ```json {{ title: 'Response' }}
+    [
+      {
+        "user": {},
+        "agent": {},
+        "agentId": "",
+        "tool": {},
+        "toolId": ""
+      }
+    ]
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Get Agent Tool {{ tag: 'GET', label: '/v1/agent-tools/{agentToolId}' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to retrieve a specific agent tools
+
+    ### Require attributes
+    
+    <Properties>
+      <Property name='agentToolId' type="String">
+        The id of an AgentTool
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'MyAgentTool.swift' }}
+    do {
+      let myAgentTool = try await superagent.getAgentTools(agentToolId: "1hj2g13kh1g23")
+      print("tool: \(myAgentTool)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+  </Col>
+  <Col sticky>
+
+    You can access the response key value pairs by requesting a specific key. For example `myAgentTool["id"]` for the tool Id
+
+    ```json {{ title: 'Response' }}
+    {
+    "id": "clhjk4hab00016iewrghkbs28",
+    "agent": {},
+    "agentId": "clhnyae1t00016i2ixo0027c2",
+    "tool": {},
+    "toolId": "clhnyae1t00016i2ixo0027c5"
+  }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Add Tool to Agent {{ tag: 'POST', label: '/v1/agent-tools' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to add a tool to an Agent
+
+    ### Require attributes
+    
+    <Properties>
+      <Property name='agentId' type="String">
+        The id of an Agent
+      </Property>
+      <Property name='toolId' type="String">
+        The id of a Tool
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'MyAgentTools.swift' }}
+    do {
+      let myAgentTool = try await superagent.addToolToAgent(agentId: "agentId", toolId: "toolId")
+      print("tool: \(myAgentTool)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+  </Col>
+  <Col sticky>
+
+    You can access the response key value pairs by requesting a specific key. For example `myAgentTool["user"]` for the tool Id
+
+    ```json {{ title: 'Response' }}
+    {
+      "user": {},
+      "agent": {},
+      "agentId": "",
+      "tool": {},
+      "toolId": ""
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Delete tool {{ tag: 'DEL', label: '/v1/tools{toolId}' }}
+
+    This endpoint allows you to delete a Tool from an Agent. The delet function returns a simple true or false boolean value that represents the success.
+
+    ### Require attributes
+    
+    <Properties>
+      <Property name="agentToolId" type="string">
+        The id of an Agent Tool.
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'MyAgentTools.swift' }}
+    do {
+      let response = try await superagent.deleteAgentTool(agentToolId: "mytoolId")
+      print("tool: \(response)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+
+---

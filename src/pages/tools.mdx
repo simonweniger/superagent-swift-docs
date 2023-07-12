@@ -1,0 +1,239 @@
+import { HeroPattern } from '@/components/HeroPattern'
+
+<HeroPattern />
+
+export const description =
+  'In this guide, we will look at how to work with paginated responses when querying the Protocol API'
+
+# Tools
+
+This guide will get you all set up and ready to use Superagent Tools. Superagent allows users to configure their Agents using tools. A tool is a Api or piece of code that helps the LLM to validate its response. It can be an api that Superagent calls to get real time information or a Zapier integration. Tools are helpfull to give LLMs access to real time and real world data while also reducing haluzination {{ className: 'lead' }}
+
+## The Tool Model
+
+The Superagent Swift SDK comes with publicly available models. This makes it easy for you to configure your requests correctly.
+Tools in superagent allow the following properties in the request.
+
+<Properties>
+  <Property name="name" type="String">
+    The name of the tool.
+  </Property>
+  <Property name="type" type="Strings">
+    The type of tool, valid options `SEARCH`, `WOLFRAM_ALPHA`, `REPLICATE`, `ZAPIER_NLA`, `AGENT`, `OPENAPI`
+  </Property>
+  <Property name="description" type="String">
+    The tool template.
+  </Property>
+  <Property name="authorization" type="Any?">
+    Optional authentification detail for a tool.
+  </Property>
+  <Property name="metadata" type="Any?">
+    Any other configuration needed for the tool as an JSON object.
+  </Property>
+</Properties>
+
+---
+
+## List all tools {{ tag: 'GET', label: '/v1/tools' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to retrieve a list of all your tools
+
+    ```swift {{ title: 'mytools.swift' }}
+    do {
+      let mytools = try await superagent.listTools()
+      print("tool: \(mytools)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+  </Col>
+  <Col sticky>
+
+    You can access the response key value pairs by requesting a specific key. For example `mytools["id"]` for the tool Id
+
+    ```json {{ title: 'Response' }}
+    {[
+        {
+          "id": "cli28c2vd00016itbrlhekwql",
+          "name": "My tool",
+          "template": "...",
+          "input_variables": [
+            "question",
+            "history"
+          ],
+        }
+      ]
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Get tool {{ tag: 'GET', label: '/v1/tools{toolId}' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to retrieve a single tool
+
+    ### Require attributes
+    
+    <Properties>
+      <Property name="id" type="string">
+        The id of the tool.
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'mytools.swift' }}
+    do {
+      let mytools = try await superagent.getTool(id: "mytoolId")
+      print("tool: \(mytools)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+  </Col>
+  <Col sticky>
+
+    You can access the response key value pairs by requesting a specific key. For example `mytools["id"]` for the tool Id
+
+    ```json {{ title: 'Response' }}
+    {
+        "id": "cli28c2vd00016itbrlhekwql",
+        "name": "My tool",
+        "template": "...",
+        "input_variables": [
+          "question",
+          "history"
+        ],
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Update a tool {{ tag: 'PAT', label: '/v1/tools{toolId}' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to update a single tool
+
+    ### Require attributes
+    
+    <Properties>
+    <Property name="id" type="string">
+        The id of the tool.
+      </Property>
+      <Property name='Tool(name: "My Zapier tool", ...)' metadata="Tool Model">
+        The updated tool as a Tool model
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'mytools.swift' }}
+
+    let newTool = Tool(name: "My Zapier tool", type: "ZAPIER_NLA", metadata: {"zapier_nla_api_key": ""})
+
+    do {
+      let mytools = try await superagent.updateTool(id: "mytoolId", newTool: newTool)
+      print("tool: \(mytools)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+  </Col>
+  <Col sticky>
+
+    You can access the response key value pairs by requesting a specific key. For example `mytools["id"]` for the tool Id
+
+    ```json {{ title: 'Response' }}
+    {
+      "id": "cli28c2vd00016itbrlhekwql",
+      "name": "My Zapier tool",
+      "type": "ZAPIER_NLA"
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Create tool {{ tag: 'POST', label: '/v1/tools' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to update a single tool
+
+    ### Require attributes
+    
+    <Properties>
+      <Property name='Tool(name: "My Zapier tool", ...)' type="Tool Model">
+        The updated tool as a Tool model
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'mytools.swift' }}
+
+   let newTool = Tool(name: "My Zapier tool", type: "ZAPIER_NLA", metadata: {"zapier_nla_api_key": ""})
+
+    do {
+      let mytools = try await superagent.createTool(tool: newTool)
+      print("tool: \(mytools)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+  </Col>
+  <Col sticky>
+
+    You can access the response key value pairs by requesting a specific key. For example `mytools["id"]` for the tool Id
+
+    ```json {{ title: 'Response' }}
+    { 
+      "id": "cli28c2vd00016itbrlhekwql",
+      "name": "My Zapier tool",
+      "type": "ZAPIER_NLA"
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Delete tool {{ tag: 'DEL', label: '/v1/tools{toolId}' }}
+
+    This endpoint allows you to delete a Tool. The delet function returns a simple true or false boolean value which represents the success.
+
+    ### Require attributes
+    
+    <Properties>
+      <Property name="id" type="string">
+        The id of the tool.
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'mytools.swift' }}
+    do {
+      let mytools = try await superagent.deleteTool(id: "mytoolId")
+      print("tool: \(mytools)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+
+---

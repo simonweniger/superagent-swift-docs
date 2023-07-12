@@ -1,0 +1,279 @@
+import { HeroPattern } from '@/components/HeroPattern'
+
+<HeroPattern />
+
+export const description =
+  'This guide will get you all set up and ready to use the Superagent Swift. We’ll cover how to get started the SDK client and how to make your first request.'
+
+# Quickstart
+
+This guide will get you all set up and ready to use the Superagent Swift. We’ll cover how to get started the SDK client and how to make your first request. {{ className: 'lead' }}
+
+<Note>
+  Before you can make requests to the Superagent API, you will need to grab your
+  API key from your dashboard. You find it under [APIKey](https://app.superagent.sh).
+</Note>
+
+## Add the SDK to your application
+
+Before making your first request, you need to add the Superagent Swift SDK ass a package to your app. In the following example, you can see how to install it.
+
+### Install the package
+1. Go to your Xcode project and select `File > Add Package`.
+![Alt Text](/screenshots/file.png)
+
+2. Enter the package repository URL: `https://github.com/simonweniger/superagent-swift` into the search.
+3. Select Up to Next Major Version.
+4. Click `Add Package`.
+![Alt Text](/screenshots/addpackage.png)
+
+<div className="not-prose">
+  <Button
+    href="https://developer.apple.com/documentation/xcode/swift-packages"
+    variant="text"
+    arrow="right"
+    children="Learn more about Swift packages"
+  />
+</div>
+
+## Initialize the SDK
+
+After adding the Superagent Swift client, you are almost ready to make your first call to the Superagent API. But before we can start making requests we need to initialize the SDK with our API credentials.
+
+```swift {{ title: 'CreateAgentView.swift' }}
+import Superagent
+
+let superagent = SuperagentSDK(apiKey: "mysuperagentkey")
+
+```
+
+<div className="not-prose">
+  <Button
+    href="https://app.superagent.sh"
+    variant="text"
+    arrow="right"
+    children="Get your api key from Superagent"
+  />
+</div>
+
+It is recommended to store your api key in a seperate file to have one source of truth, as you may have different locations in your project where the SDK gets initialized.
+
+```swift {{ title: 'constants.swift' }}
+import foundation
+
+struct Constants {
+    static let SUPERAGENT_API_KEY: String = "yoursuperagentapi"
+  //...other constants
+}
+```
+
+The file where you use the superagent SDK would then look like this:
+
+```swift {{ title: 'CreateAgentView.swift' }}
+import Superagent
+
+let superagent = SuperagentSDK(apiKey: "mysuperagentapikey")
+```
+
+## Create your first prompt Tamplate
+
+After we have initialize the SDK we can start use its functions to make api calls to superagent. 
+For the purpose of this quickstart we created a new project with a CreateAgentView. Inside of the CreateAgentView class we create a new function with the name `createPrompt()`.
+
+```swift {{ title: 'CreateAgentView.swift' }}
+import Superagent
+
+let superagent = SuperagentSDK(apiKey: "mysuperagentapikey")
+
+class CreateAgentView: View {
+  func createPrompt() async throws -> String {
+    let newPrompt = Prompt(name: "My prompt", inputVariables: ["question", "history"], template: "My prompt template with {histroy} and {question}")
+  }
+}
+```
+
+<Row>
+  <Col>
+
+    The Prompt Model has the following values which are required to create a new Prompt.
+    
+    <Properties>
+      <Property name="name" type="string">
+        The name of the prompt.
+      </Property>
+      <Property name="inputVariables" type="arrray of strings">
+        A `String array` containing input variables.
+      </Property>
+      <Property name="template" type="string">
+        The prompt template.
+      </Property>
+    </Properties>
+  </Col>
+  <Col>
+
+    Here is an example response from Superagents API.
+
+    ```json {{ title: 'Create agent response' }}
+    {
+      "success": true,
+      "data": {
+      "id": "cli28c2vd00016itbrlhekwql",
+        "name": "My prompt",
+        "template": "...",
+        "input_variables": [
+            "question",
+            "history"
+        ],
+      }
+    }
+    ```
+
+  </Col>
+</Row>
+
+We submit our prompt with a simple do/catch where we use the createPrompt function from superagent. After that we print the response as well as the name and id to the console.
+As you see you can access all properties from the response data via their Key. For example `prompt[name]` for the name of the prompt. This is the case for all functions from the Superagent Swift SDK.
+
+```swift {{ title: 'CreateAgentView.swift' }}
+import Superagent
+
+class CreateAgentView: View {
+  
+  let superagent = SuperagentSDK(apiKey: "mysuperagentapikey")
+
+  func createPrompt() async throws -> String {
+    let newPrompt = Prompt(name: "My prompt", inputVariables: ["question", "history"], template: "My prompt template with {histroy} and {question}")
+    do {
+      let prompt = try await superagent.createPrompt(prompt: newPrompt)
+      print("Create prompt result: \(prompt)")
+      print("Hi I am promt \(prompt["name"] ?? "none") with the ID: \(prompt["id"] ?? "none")")
+      } catch {
+        print("Error when creating prompt: \(error)")
+        throw error
+      }
+  }
+}
+```
+
+## Create your first agent
+
+We have create a prompt tamplate that we wanna utalize to create an agent.
+So let's create our first agent! Now we create a new function inside of our ContenView called `createAgent()`.
+In you application you probanly want to creae your own function with user inputs in a view model instead.
+
+Under the createPrompt() function, inside of the ContentView we create agent variable that initalizes a new agent based of the agent model from Superagent.
+Here we are using the prompt id we got from the createPrompt() function. In your application you will probably have one of three cases:
+1. You wanna pre create prompts. Therfore I would recommend using the [Superagent dashboard](https://app.superagent.sh) and hardcode the promptId.
+2. You wanna let your users create a prompt. In this case I would store the prompt response in in your db and fetch the user promptId from there.
+3. Your users always create Agent and prompt together. If this is the case you could have a crateAgent() function with the required inputs and then first create the prompt and then create the agent all in the same function.
+
+But in our case for this quickstart tutorial we simply assume you pass in the promptId from a variable or db.
+
+```swift {{ title: 'CreateAgentView.swift' }}
+import Superagent
+//... other code
+class CreateAgentView: View {
+  //... after the create prompt function
+  func createAgent() async throws {
+    let newAgent = Agent(name: "My first Agent", type: "OPENAI", llm: Agent.LLM(provider: "openai-chat", model: "gpt-3.5-turbo", apiKey: ""), hasMemory: true, promptId: promptId)
+  }
+}
+```
+
+The Agent Model has the following values which are required to create your first Agent.
+
+<Row>
+  <Col>
+
+    ### Agent Model
+    <Properties>
+      <Property name="name" type="string">
+        A name for the agent
+      </Property>
+      <Property name="type" type="string">
+        The agent type, valid values: `OPENAI`, `REACT`
+      </Property>
+      <Property name="llm" type="LLM model">
+        The large language model you want to use with the agent.
+      </Property>
+      <Property name="hasMemory" type="string">
+       If the agent should have memory
+      </Property>
+      <Property name="promptId" type="string">
+        A valid `promptId`
+      </Property>
+    </Properties>
+
+
+    ### LLM Model
+    The LLM Model is a child model of Agent which is required inside of the llm property of the Agent model
+
+    <Properties>
+      <Property name="provider" type="integer">
+        The LLM provider, options:`openai`, `openai-chat`, `anthropic`, `cohere` 
+      </Property>
+      <Property name="model" type="integer">
+        The specific model you want to run, e.g `gpt-3.5-turbo`, `gpt-4`, `claude-v1` etc.
+      </Property>
+      <Property name="apiKey" type="integer">
+        Enter an optional API key if you want to use your own account for the specific LLM provider.
+      </Property>
+    </Properties>
+
+  </Col>
+  <Col>
+
+    Here is an example response that shows what the Superagent API returns after you called the createAgent() function via the swift SDK.
+
+    ```json {{ title: 'Create agent response' }}
+    {
+      "success": true,
+      "data": {
+          "id": "clhjk4hab00016iewrghkbs28",
+          "userId": "clhj28u1300006ig02ptpm1sh",
+          "user": {},
+          "name": "Test Agent",
+          "type": "REACT",
+          "llm": {
+              "model": "gpt-3.5-turbo",
+              "provider": "openai-chat"
+          },
+          "hasMemory": true,
+          "AgentMemory": null
+        }
+    }
+    ```
+
+  </Col>
+</Row>
+
+Now we know what Agent we want to create. Its time to submit the request. Therfore we cerat a simple do/catch where we use the createAgent function from superagent.
+
+```swift {{ title: 'CreateAgentView.swift' }}
+import Superagent
+
+class CreateAgentView: View {
+  
+  let superagent = SuperagentSDK(apiKey: "mysuperagentapikey")
+
+  func createAgent() async throws {
+    let newAgent = Agent(name: "My first Agent", type: "OPENAI", llm: Agent.LLM(provider: "openai-chat", model: "gpt-3.5-turbo", apiKey: ""), hasMemory: true, promptId: "")
+    do {
+      let agent = try await superagent.createAgent(agent: newAgent)
+      print("Agent result: \(agent)")
+      print("Hi I am Agent \(agent["name"] ?? "none")")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+      }
+  }
+}
+```
+
+## What's next?
+
+Great, you're now set up with the Superagent swift client and have made your first request to the API. Here are a few links that might be handy as you venture further into Superagent:
+
+- [Grab your API key from the Protocol dashboard](https://app.superagent.sh)
+- [Explore all functions](/functions)
+- [View Response ressources](/contacts)

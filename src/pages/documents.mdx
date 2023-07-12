@@ -1,0 +1,237 @@
+import { HeroPattern } from '@/components/HeroPattern'
+
+<HeroPattern />
+
+export const description =
+  'In this guide, we will look at how to work with paginated responses when querying the Protocol API'
+
+# Documents
+
+This guide will get you all set up and ready to use Superagent Documents. Superagent allows users to do question answering over documents by attaching a Document to an Agent. Documents are files, such as PDF, TXT, images, Markdown etc. that can be ingested by passing a publicly available URL to the Superagent API. Superagent splits these documents into smaller chunks and stores them in a vector database for use downstream.
+
+This approach has some downsides when working with tabular data. We are looking into how to best approach this problem. {{ className: 'lead' }}
+
+## The Document Models
+
+The Superagent Swift SDK comes with publicly available models. This makes it easy for you to configure your requests correctly.
+Documents in superagent allow the following properties in the request.
+
+
+
+<Row>
+  <Col>
+
+  ### Document Model
+<Properties>
+  <Property name="name" type="String">
+    The Document name.
+  </Property>
+  <Property name="type" type="string">
+    The document type. Options: `TXT`, `PDF`, `YOUTUBE`,`CSV`,`URL`.
+  </Property>
+  <Property name="url" type="String">
+    A publicly available `URL` for the document.
+  </Property>
+  <Property name="authorization" type="Any?">
+    Any authorization/authentication needed to access the document.
+  </Property>
+  <Property name="fromPage" type="Int?">
+    The first page to ingest.
+  </Property>
+  <Property name="toPage" type="Int?">
+   The last page to ingest.
+  </Property>
+
+  <Property name="toPage" type="Int?">
+   The last pa
+  </Property>
+  <Property name="splitter" type="Any?">
+    The desired text splitter for the document, defaults to CharacterTextSplitter.
+  </Property>
+</Properties>
+</Col>
+<Col>
+
+### Splitter Model
+The Splitter Model is a child model of Document which is required inside of the splitter property of the Documents model
+<Properties>
+  <Property name="type" type="string">
+     Valid options,`character`, `recursive`, `token`,`spacy`,`nltk`,`huggingface`.
+  </Property>
+  <Property name="chunkSize" type="Int?">
+   The chunk size of the text splitter.
+  </Property>
+  <Property name="chunkOverlap" type="Any?">
+    The chunk overlap of the text splitter.
+  </Property>
+</Properties>
+</Col>
+</Row>
+---
+
+## List all Documents {{ tag: 'GET', label: '/v1/documents' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to retrieve a list of all your Documents
+
+    ```swift {{ title: 'myDocuments.swift' }}
+    do {
+      let myDocuments = try await superagent.listDocuments()
+      print("Document: \(myDocuments)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+  </Col>
+  <Col sticky>
+
+    You can access the response key value pairs by requesting a specific key. For example `myDocuments["id"]` for the Document Id
+
+    ```json {{ title: 'Response' }}
+    {[
+        {
+          "id": "clhnyae1t00016i2ixo0027c5",
+          "userId": "clhj28u1300006ig02ptpm1sh",
+          "user": {},
+          "type": "PDF",
+          "url": "https://digitalassets.tesla.com/tesla-contents/image/upload/IR/TSLA-Q1-2023-Update",
+          "createdAt": "2023-05-14T21:50:59.349000+00:00",
+          "updatedAt": "2023-05-14T21:50:59.349000+00:00",
+          "index": null,
+          "Agent": null
+        } 
+      ]
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Get Document {{ tag: 'GET', label: '/v1/documents{documentId}' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to retrieve a single Document
+
+    ### Require attributes
+    
+    <Properties>
+      <Property name="id" type="string">
+        The id of the Document.
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'myDocuments.swift' }}
+    do {
+      let myDocuments = try await superagent.getDocument(id: "myDocumentId")
+      print("Document: \(myDocuments)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+  </Col>
+  <Col sticky>
+
+    You can access the response key value pairs by requesting a specific key. For example `myDocuments["id"]` for the Document Id
+
+    ```json {{ title: 'Response' }}
+    {
+        "id": "clhnyae1t00016i2ixo0027c5",
+        "userId": "clhj28u1300006ig02ptpm1sh",
+        "user": {},
+        "name": "My document"
+        "type": "PDF",
+        "url": "https://digitalassets.tesla.com/tesla-contents/image/upload/IR/TSLA-Q1-2023-Update",
+        "createdAt": "2023-05-14T21:50:59.349000+00:00",
+        "updatedAt": "2023-05-14T21:50:59.349000+00:00",
+        "index": null,
+        "Agent": null
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Create Document {{ tag: 'POST', label: '/v1/documents' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to update a single Document
+
+    ### Require attributes
+    
+    <Properties>
+      <Property name='Document(name "My document", type: "PDF"...)' type="Document Model">
+        The updated Document as a Document model
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'myDocuments.swift' }}
+
+    let newDocument = Document(name: "My document", type: "PDF", url: "https://digitalassets.tesla.com/tesla-contents/image/upload/IR/TSLA-Q1-2023-Update", authorization: null, splitter: null)
+
+    do {
+      let myDocuments = try await superagent.createDocument(Document: newDocument)
+      print("Document: \(myDocuments)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+  </Col>
+  <Col sticky>
+
+    You can access the response key value pairs by requesting a specific key. For example `myDocuments["id"]` for the Document Id
+
+    ```json {{ title: 'Response' }}
+    {
+        "id": "clhnyae1t00016i2ixo0027c5",
+        "userId": "clhj28u1300006ig02ptpm1sh",
+        "user": {},
+        "type": "PDF",
+        "url": "https://digitalassets.tesla.com/tesla-contents/image/upload/IR/TSLA-Q1-2023-Update",
+        "createdAt": "2023-05-14T21:50:59.349000+00:00",
+        "updatedAt": "2023-05-14T21:50:59.349000+00:00",
+        "index": null,
+        "Agent": null
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Delete Document {{ tag: 'DEL', label: '/v1/documents{documentId}' }}
+
+    This endpoint allows you to retrieve a single Document. The delet function returns a simple true or false boolean value
+
+    ### Require attributes
+    
+    <Properties>
+      <Property name="id" type="string">
+        The id of the Document.
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'myDocuments.swift' }}
+    do {
+      let myDocuments = try await superagent.deleteDocument(id: "myDocumentId")
+      print("Document: \(myDocuments)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+
+---

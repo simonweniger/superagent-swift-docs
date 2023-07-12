@@ -1,0 +1,165 @@
+import { HeroPattern } from '@/components/HeroPattern'
+
+<HeroPattern />
+
+export const description =
+  'This guide will get you all set up and ready to use Superagent Agent Documents.'
+
+# Agent Documents
+
+This guide will get you all set up and ready to use Superagent Agent Agent Documents. {{ className: 'lead' }}
+
+---
+
+## List all Agent Documents {{ tag: 'GET', label: '/v1/agent-documents' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to retrieve a list of all documents which are connected to an Agent.
+
+    ```swift {{ title: 'MyAgentDocuments.swift' }}
+    do {
+      let myAgentDocuments = try await superagent.listAgentDocuments()
+      print("document: \(myAgentDocuments)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+  </Col>
+  <Col sticky>
+
+    You can access the response key value pairs by requesting a specific key. For example `myAgentDocuments["user"]` for the document Id
+
+    ```json {{ title: 'Response' }}
+    [
+      {
+        "id": "clhjk4hab00016iewrghkbs28",
+        "agent": {},
+        "agentId": "clhnyae1t00016i2ixo0027c2",
+        "document": {},
+        "documentId": "clhnyae1t00016i2ixo0027c5"
+      }
+    ]
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Get Agent Document {{ tag: 'GET', label: '/v1/agent-documents/{agentDocumentId}' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to retrieve a specific agent documents
+
+    ### Require attributes
+    
+    <Properties>
+      <Property name='agentDocumentId' type="String">
+        The id of an AgentDocument
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'MyAgentDocument.swift' }}
+    do {
+      let myAgentDocument = try await superagent.getAgentDocument(agentDocumentId: "1hj2g13kh1g23")
+      print("document: \(myAgentDocument)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+  </Col>
+  <Col sticky>
+
+    You can access the response key value pairs by requesting a specific key. For example `myAgentDocument["id"]` for the document Id
+
+    ```json {{ title: 'Response' }}
+    {
+      "id": "clhjk4hab00016iewrghkbs28",
+      "agent": {},
+      "agentId": "clhnyae1t00016i2ixo0027c2",
+      "document": {},
+      "documentId": "clhnyae1t00016i2ixo0027c5"
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Add Document to Agent {{ tag: 'POST', label: '/v1/agent-documents' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to add a document to an Agent
+
+    ### Require attributes
+    
+    <Properties>
+      <Property name='agentId' type="String">
+        The id of an Agent
+      </Property>
+      <Property name='documentId' type="documentId">
+        The id of a Document
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'MyAgentDocuments.swift' }}
+    do {
+      let myAgentDocument = try await superagent.addDocumentToAgent(documentId: "documentId", agentId: "agentId")
+      print("document: \(myAgentDocument)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+  </Col>
+  <Col sticky>
+
+    You can access the response key value pairs by requesting a specific key. For example `myAgentDocument["user"]` for the document Id
+
+    ```json {{ title: 'Response' }}
+    {
+      "id": "clhjk4hab00016iewrghkbs28",
+      "agent": {},
+      "agentId": "clhnyae1t00016i2ixo0027c2",
+      "document": {},
+      "documentId": "clhnyae1t00016i2ixo0027c5"
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Delete document {{ tag: 'DEL', label: '/v1/agent-documents{agentDocumentId}' }}
+
+    This endpoint allows you to delete a Document from an Agent. The delet function returns a simple true or false boolean value that represents the success.
+
+    ### Require attributes
+    
+    <Properties>
+      <Property name="agentDocumentId" type="string">
+        The id of an Agent Document.
+      </Property>
+    </Properties>
+
+    ```swift {{ title: 'MyAgentDocuments.swift' }}
+    do {
+      let response = try await superagent.deleteAgentDocument(agentDocumentId: "mydocumentId")
+      print("document: \(response)")
+      } catch {
+        print("Error when creating agent: \(error)")
+        throw error
+    }
+    ```
+
+---
