@@ -7,14 +7,16 @@ import { ChatBubbleIcon } from '@/components/icons/ChatBubbleIcon'
 import { EnvelopeIcon } from '@/components/icons/EnvelopeIcon'
 import { UserIcon } from '@/components/icons/UserIcon'
 import { UsersIcon } from '@/components/icons/UsersIcon'
+import { DocumentIcon } from '@/components/icons/DocumentIcon'
+import { LinkIcon } from '@/components/icons/LinkIcon'
 
 const resources = [
   {
-    href: '/contacts',
-    name: 'Contacts',
+    href: '/prompts',
+    name: 'Prompts',
     description:
-      'Learn about the contact model and how to create, retrieve, update, delete, and list contacts.',
-    icon: UserIcon,
+      'Learn about the prompts and how to create, retrieve, update, delete, and list them.',
+    icon: ChatBubbleIcon,
     pattern: {
       y: 16,
       squares: [
@@ -24,11 +26,11 @@ const resources = [
     },
   },
   {
-    href: '/conversations',
-    name: 'Conversations',
+    href: '/documents',
+    name: 'Documents',
     description:
-      'Learn about the conversation model and how to create, retrieve, update, delete, and list conversations.',
-    icon: ChatBubbleIcon,
+      'Learn about documents and how to create, retrieve, update, delete, and list them.',
+    icon: DocumentIcon,
     pattern: {
       y: -6,
       squares: [
@@ -38,11 +40,11 @@ const resources = [
     },
   },
   {
-    href: '/messages',
-    name: 'Messages',
+    href: '/tools',
+    name: 'Tools',
     description:
-      'Learn about the message model and how to create, retrieve, update, delete, and list messages.',
-    icon: EnvelopeIcon,
+      'Learn about tools and how to create, retrieve, update, delete, and list messages.',
+    icon: LinkIcon,
     pattern: {
       y: 32,
       squares: [
@@ -52,10 +54,10 @@ const resources = [
     },
   },
   {
-    href: '/groups',
-    name: 'Groups',
+    href: '/agents',
+    name: 'Agents',
     description:
-      'Learn about the group model and how to create, retrieve, update, delete, and list groups.',
+      'Learn about agents and how to create, retrieve, update, delete, and list them.',
     icon: UsersIcon,
     pattern: {
       y: 22,
@@ -88,7 +90,7 @@ function ResourcePattern({ mouseX, mouseY, ...gridProps }) {
         />
       </div>
       <motion.div
-        className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#D7EDEA] to-[#F4FBDF] opacity-0 transition duration-300 group-hover:opacity-100 dark:from-[#202D2E] dark:to-[#303428]"
+        className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#EDE3D7] to-[#FBEEDF] opacity-0 transition duration-300 group-hover:opacity-100 dark:from-[#2E2720] dark:to-[#342F28]"
         style={style}
       />
       <motion.div

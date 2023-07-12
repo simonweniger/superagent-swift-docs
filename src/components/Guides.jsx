@@ -3,26 +3,36 @@ import { Heading } from '@/components/Heading'
 
 const guides = [
   {
-    href: '/authentication',
-    name: 'Authentication',
-    description: 'Learn how to authenticate your API requests.',
+    href: '/cuickstart',
+    name: 'Quickstart',
+    description: 'Learn how to use the Superagent Swift SDK by creating your first agent.',
+    cta: 'Coming Soon'
   },
   {
-    href: '/pagination',
-    name: 'Pagination',
-    description: 'Understand how to work with paginated responses.',
+    href: '/concepts',
+    name: 'Concepts',
+    description: 'Understand the basics of LLMs, Prompts, Agents, Documents and Tools.',
+    cta: 'Coming Soon'
   },
+  //{
+  //  href: '/pagination',
+  //  name: 'Pagination',
+  //  description: 'Understand how to work with paginated responses.',
+  //  cta: 'Coming Soon'
+  //},
   {
-    href: '/errors',
-    name: 'Errors',
+    href: '/',
+    name: 'Chat with Documents Example',
     description:
-      'Read about the different types of errors returned by the API.',
+      'Learn how to use the Superagent SDK by building a App that lets users chat with their documents',
+    cta: 'Coming Soon'
   },
   {
-    href: '/webhooks',
-    name: 'Webhooks',
+    href: '/',
+    name: 'Wolfram Search App Example',
     description:
-      'Learn how to programmatically configure webhooks for your app.',
+      'Learn how to use the Superagent SDK by building a App where users can chat with Wolfram.',
+    cta: 'Coming Soon'
   },
 ]
 
@@ -43,7 +53,7 @@ export function Guides() {
             </p>
             <p className="mt-4">
               <Button href={guide.href} variant="text" arrow="right">
-                Read more
+               {guide.cta}
               </Button>
             </p>
           </div>
