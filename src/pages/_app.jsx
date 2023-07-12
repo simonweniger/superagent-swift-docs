@@ -23,9 +23,9 @@ export default function App({ Component, pageProps }) {
     <>
       <Head>
         {router.pathname === '/' ? (
-          <title>Superagent Swift API Reference</title>
+          <title>Superagent Swift SDK</title>
         ) : (
-          <title>{`${pageProps.title} - Superagent Swift API Reference`}</title>
+          <title>{`${pageProps.title} - Superagent Swift SDK`}</title>
         )}
         <meta name="description" content={pageProps.description} />
       </Head>
