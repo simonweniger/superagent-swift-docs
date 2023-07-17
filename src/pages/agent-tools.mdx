@@ -12,10 +12,6 @@ This guide will get you all set up and ready to use Superagent Agent Tools. {{ c
 ---
 
 ## List all Agent Tools {{ tag: 'GET', label: '/v1/agent-tools' }}
-
-<Row>
-  <Col>
-
     This endpoint allows you to retrieve a list of all your agent tools
 
     ```swift {{ title: 'MyAgentTools.swift' }}
@@ -27,8 +23,6 @@ This guide will get you all set up and ready to use Superagent Agent Tools. {{ c
         throw error
     }
     ```
-  </Col>
-  <Col sticky>
 
     You can access the response key value pairs by requesting a specific key. For example `myAgentTools["user"]` for the tool Id
 
@@ -44,15 +38,9 @@ This guide will get you all set up and ready to use Superagent Agent Tools. {{ c
     ]
     ```
 
-  </Col>
-</Row>
-
 ---
 
 ## Get Agent Tool {{ tag: 'GET', label: '/v1/agent-tools/{agentToolId}' }}
-
-<Row>
-  <Col>
 
     This endpoint allows you to retrieve a specific agent tools
 
@@ -73,8 +61,6 @@ This guide will get you all set up and ready to use Superagent Agent Tools. {{ c
         throw error
     }
     ```
-  </Col>
-  <Col sticky>
 
     You can access the response key value pairs by requesting a specific key. For example `myAgentTool["id"]` for the tool Id
 
@@ -88,15 +74,9 @@ This guide will get you all set up and ready to use Superagent Agent Tools. {{ c
   }
     ```
 
-  </Col>
-</Row>
-
 ---
 
 ## Add Tool to Agent {{ tag: 'POST', label: '/v1/agent-tools' }}
-
-<Row>
-  <Col>
 
     This endpoint allows you to add a tool to an Agent
 
@@ -120,8 +100,6 @@ This guide will get you all set up and ready to use Superagent Agent Tools. {{ c
         throw error
     }
     ```
-  </Col>
-  <Col sticky>
 
     You can access the response key value pairs by requesting a specific key. For example `myAgentTool["user"]` for the tool Id
 
@@ -134,9 +112,6 @@ This guide will get you all set up and ready to use Superagent Agent Tools. {{ c
       "toolId": ""
     }
     ```
-
-  </Col>
-</Row>
 
 ---
 

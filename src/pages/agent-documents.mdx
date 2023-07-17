@@ -13,9 +13,6 @@ This guide will get you all set up and ready to use Superagent Agent Agent Docum
 
 ## List all Agent Documents {{ tag: 'GET', label: '/v1/agent-documents' }}
 
-<Row>
-  <Col>
-
     This endpoint allows you to retrieve a list of all documents which are connected to an Agent.
 
     ```swift {{ title: 'MyAgentDocuments.swift' }}
@@ -27,8 +24,6 @@ This guide will get you all set up and ready to use Superagent Agent Agent Docum
         throw error
     }
     ```
-  </Col>
-  <Col sticky>
 
     You can access the response key value pairs by requesting a specific key. For example `myAgentDocuments["user"]` for the document Id
 
@@ -44,15 +39,10 @@ This guide will get you all set up and ready to use Superagent Agent Agent Docum
     ]
     ```
 
-  </Col>
-</Row>
 
 ---
 
 ## Get Agent Document {{ tag: 'GET', label: '/v1/agent-documents/{agentDocumentId}' }}
-
-<Row>
-  <Col>
 
     This endpoint allows you to retrieve a specific agent documents
 
@@ -73,8 +63,6 @@ This guide will get you all set up and ready to use Superagent Agent Agent Docum
         throw error
     }
     ```
-  </Col>
-  <Col sticky>
 
     You can access the response key value pairs by requesting a specific key. For example `myAgentDocument["id"]` for the document Id
 
@@ -87,16 +75,10 @@ This guide will get you all set up and ready to use Superagent Agent Agent Docum
       "documentId": "clhnyae1t00016i2ixo0027c5"
     }
     ```
-
-  </Col>
-</Row>
-
 ---
 
 ## Add Document to Agent {{ tag: 'POST', label: '/v1/agent-documents' }}
 
-<Row>
-  <Col>
 
     This endpoint allows you to add a document to an Agent
 
@@ -120,8 +102,6 @@ This guide will get you all set up and ready to use Superagent Agent Agent Docum
         throw error
     }
     ```
-  </Col>
-  <Col sticky>
 
     You can access the response key value pairs by requesting a specific key. For example `myAgentDocument["user"]` for the document Id
 
@@ -134,9 +114,6 @@ This guide will get you all set up and ready to use Superagent Agent Agent Docum
       "documentId": "clhnyae1t00016i2ixo0027c5"
     }
     ```
-
-  </Col>
-</Row>
 
 ---
 

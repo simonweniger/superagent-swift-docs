@@ -30,8 +30,6 @@ Prompts in superagent allow the following properties in the request.
 
 ## List all prompts {{ tag: 'GET', label: '/v1/prompts' }}
 
-<Row>
-  <Col>
 
     This endpoint allows you to retrieve a list of all your prompts
 
@@ -44,8 +42,6 @@ Prompts in superagent allow the following properties in the request.
         throw error
     }
     ```
-  </Col>
-  <Col sticky>
 
     You can access the response key value pairs by requesting a specific key. For example `myprompts["id"]` for the prompt Id
 
@@ -64,15 +60,10 @@ Prompts in superagent allow the following properties in the request.
     }
     ```
 
-  </Col>
-</Row>
-
 ---
 
 ## Get prompt {{ tag: 'GET', label: '/v1/prompts{promptId}' }}
 
-<Row>
-  <Col>
 
     This endpoint allows you to retrieve a single prompt
 
@@ -93,8 +84,6 @@ Prompts in superagent allow the following properties in the request.
         throw error
     }
     ```
-  </Col>
-  <Col sticky>
 
     You can access the response key value pairs by requesting a specific key. For example `myprompts["id"]` for the prompt Id
 
@@ -110,15 +99,10 @@ Prompts in superagent allow the following properties in the request.
     }
     ```
 
-  </Col>
-</Row>
-
 ---
 
 ## Update a prompt {{ tag: 'PAT', label: '/v1/prompts{promptId}' }}
 
-<Row>
-  <Col>
 
     This endpoint allows you to update a single prompt
 
@@ -145,8 +129,6 @@ Prompts in superagent allow the following properties in the request.
         throw error
     }
     ```
-  </Col>
-  <Col sticky>
 
     You can access the response key value pairs by requesting a specific key. For example `myprompts["id"]` for the prompt Id
 
@@ -161,16 +143,9 @@ Prompts in superagent allow the following properties in the request.
         ]
     }
     ```
-
-  </Col>
-</Row>
-
 ---
 
 ## Create prompt {{ tag: 'POST', label: '/v1/prompts' }}
-
-<Row>
-  <Col>
 
     This endpoint allows you to update a single prompt
 
@@ -194,9 +169,6 @@ Prompts in superagent allow the following properties in the request.
         throw error
     }
     ```
-  </Col>
-  <Col sticky>
-
     You can access the response key value pairs by requesting a specific key. For example `myprompts["id"]` for the prompt Id
 
     ```json {{ title: 'Response' }}
@@ -210,9 +182,6 @@ Prompts in superagent allow the following properties in the request.
         ]
     }
     ```
-
-  </Col>
-</Row>
 
 ---
 

@@ -36,9 +36,6 @@ Tools in superagent allow the following properties in the request.
 
 ## List all tools {{ tag: 'GET', label: '/v1/tools' }}
 
-<Row>
-  <Col>
-
     This endpoint allows you to retrieve a list of all your tools
 
     ```swift {{ title: 'mytools.swift' }}
@@ -50,10 +47,8 @@ Tools in superagent allow the following properties in the request.
         throw error
     }
     ```
-  </Col>
-  <Col sticky>
 
-    You can access the response key value pairs by requesting a specific key. For example `mytools["id"]` for the tool Id
+    To access the response key value pair just specific a key. For example `mytools["id"]` for the tool Id
 
     ```json {{ title: 'Response' }}
     {[
@@ -70,15 +65,9 @@ Tools in superagent allow the following properties in the request.
     }
     ```
 
-  </Col>
-</Row>
-
 ---
 
 ## Get tool {{ tag: 'GET', label: '/v1/tools{toolId}' }}
-
-<Row>
-  <Col>
 
     This endpoint allows you to retrieve a single tool
 
@@ -99,8 +88,6 @@ Tools in superagent allow the following properties in the request.
         throw error
     }
     ```
-  </Col>
-  <Col sticky>
 
     You can access the response key value pairs by requesting a specific key. For example `mytools["id"]` for the tool Id
 
@@ -116,15 +103,9 @@ Tools in superagent allow the following properties in the request.
     }
     ```
 
-  </Col>
-</Row>
-
 ---
 
 ## Update a tool {{ tag: 'PAT', label: '/v1/tools{toolId}' }}
-
-<Row>
-  <Col>
 
     This endpoint allows you to update a single tool
 
@@ -151,8 +132,6 @@ Tools in superagent allow the following properties in the request.
         throw error
     }
     ```
-  </Col>
-  <Col sticky>
 
     You can access the response key value pairs by requesting a specific key. For example `mytools["id"]` for the tool Id
 
@@ -164,15 +143,10 @@ Tools in superagent allow the following properties in the request.
     }
     ```
 
-  </Col>
-</Row>
-
 ---
 
 ## Create tool {{ tag: 'POST', label: '/v1/tools' }}
 
-<Row>
-  <Col>
 
     This endpoint allows you to update a single tool
 
@@ -196,8 +170,6 @@ Tools in superagent allow the following properties in the request.
         throw error
     }
     ```
-  </Col>
-  <Col sticky>
 
     You can access the response key value pairs by requesting a specific key. For example `mytools["id"]` for the tool Id
 
@@ -208,9 +180,6 @@ Tools in superagent allow the following properties in the request.
       "type": "ZAPIER_NLA"
     }
     ```
-
-  </Col>
-</Row>
 
 ---
 
