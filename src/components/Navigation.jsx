@@ -219,7 +219,8 @@ export function Navigation(props) {
   return (
     <nav {...props}>
       <ul role="list">
-        <TopLevelNavItem href="/https://github.com/simonweniger/superagent-swift">Github</TopLevelNavItem>
+        <TopLevelNavItem href="https://superagent-swift.vercel.app/">Home</TopLevelNavItem>
+        <TopLevelNavItem href="https://github.com/simonweniger/superagent-swift">Github</TopLevelNavItem>
         <TopLevelNavItem href="https://superagent.sh">Superagent.sh</TopLevelNavItem>
         <TopLevelNavItem href="https://discord.gg/rmZJUtq4uD">Discord</TopLevelNavItem>
         {navigation.map((group, groupIndex) => (

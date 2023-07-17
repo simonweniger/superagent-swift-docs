@@ -68,6 +68,7 @@ export const Header = forwardRef(function Header({ className }, ref) {
       <div className="flex items-center gap-5">
         <nav className="hidden md:block">
           <ul role="list" className="flex items-center gap-8">
+            <TopLevelNavItem href="https://superagent-swift.vercel.app/">Home</TopLevelNavItem>
             <TopLevelNavItem href="https://github.com/simonweniger/superagent-swift">Github</TopLevelNavItem>
             <TopLevelNavItem href="https://superagent.sh">Superagent.sh</TopLevelNavItem>
             <TopLevelNavItem href="https://discord.gg/rmZJUtq4uD">Discord</TopLevelNavItem>
